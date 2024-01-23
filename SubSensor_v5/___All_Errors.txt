@@ -1,0 +1,10 @@
+CorrelationId: 028004d3-e3e0-4ba0-90c9-b47ef33c3368
+UTC DateTime: 09/11/2023 10:43:03
+
+The following files/folders have not been downloaded
+0. SubSensor_v5/.pio/libdeps/esp-wrover-kit/NimBLE-Arduino/src/nimble/nimble/host/mesh/src/prov_bearer.h
+1. SubSensor_v5/.pio/libdeps/esp-wrover-kit/NimBLE-Arduino/src/nimble/nimble/host/mesh/src/prov_device.c
+2. SubSensor_v5/.pio/libdeps/esp-wrover-kit/NimBLE-Arduino/src/nimble/nimble/host/mesh/src/provisioner.c
+3. SubSensor_v5/.pio/libdeps/esp-wrover-kit/NimBLE-Arduino/src/nimble/nimble/host/mesh/src/provisioner.h
+4. SubSensor_v5/.pio/libdeps/esp-wrover-kit/NimBLE-Arduino/src/nimble/nimble/host/mesh/src/proxy.c
+5. SubSensor_v5/.pio/libdeps/esp-wrover-kit/NimBLE-Arduino/src/nimble/nimble/host/mesh/src/proxy.h

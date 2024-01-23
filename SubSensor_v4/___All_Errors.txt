@@ -1,0 +1,18 @@
+CorrelationId: adb04841-77bc-4c1b-8931-06ef27c22d2a
+UTC DateTime: 09/11/2023 10:45:42
+
+The following files/folders have not been downloaded
+0. SubSensor_v4/.pio/build/esp-wrover-kit/libc7b/NimBLE-Arduino/nimble/nimble/host/mesh/src/prov.c.d
+1. SubSensor_v4/.pio/build/esp-wrover-kit/libc7b/NimBLE-Arduino/nimble/nimble/host/mesh/src/prov.c.o
+2. SubSensor_v4/.pio/build/esp-wrover-kit/libc7b/NimBLE-Arduino/nimble/nimble/host/mesh/src/prov_device.c.d
+3. SubSensor_v4/.pio/libdeps/esp32-s3-devkitc-1/U8g2/src/clib/u8x8_cad.c
+4. SubSensor_v4/.pio/libdeps/esp32-s3-devkitc-1/U8g2/src/clib/u8x8_capture.c
+5. SubSensor_v4/.pio/libdeps/esp-wrover-kit/NimBLE-Arduino/src/nimble/nimble/transport
+6. SubSensor_v4/.pio/libdeps/esp-wrover-kit/NimBLE-Arduino/src/nimble/porting
+7. SubSensor_v4/.pio/libdeps/esp-wrover-kit/RTClib
+8. SubSensor_v4/.pio/libdeps/esp-wrover-kit/TinyWireM
+9. SubSensor_v4/.pio/libdeps/esp-wrover-kit/U8g2
+10. SubSensor_v4/.vscode
+11. SubSensor_v4/lib
+12. SubSensor_v4/src
+13. SubSensor_v4/test

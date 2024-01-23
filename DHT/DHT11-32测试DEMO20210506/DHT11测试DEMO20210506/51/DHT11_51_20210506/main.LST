@@ -1,0 +1,161 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              05/06/2021 18:57:00 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: D:\Program Files (tech)\Keil_v5MDK\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTE
+                    -ND TABS(2)
+
+line level    source
+
+   1          /*************************************************************************************
+   2          
+   3          *
+   4           µ—Èœ÷œÛ£∫œ¬‘ÿ≥Ã–Ú∫Û≤Â…œLCD1602“∫æß‘⁄ø™∑¢∞Â…œ£¨DHT11 DATAø⁄Ω”P3^6º¥ø…œ‘ æ
+   5                
+   6          Ω”œﬂÀµ√˜£∫ 1602      51
+   7                  LCD1602_EN  P2^7;
+   8                  LCD1602_RW  P2^5;
+   9                  LCD1602_RS  P2^6;
+  10                    DHT11      51
+  11                  DHT11_DATA  P3^6;
+  12                  
+  13                  
+  14          ◊¢“‚ ¬œÓ£∫∏˘æ›◊‘º∫ π”√µƒLCD1602 «∑Ò¥¯”–◊™Ω”∞Â£¨»Áπ˚¥¯”–◊™Ω”∞Âµƒº¥Œ™4Œª£¨–Ë‘⁄LCD.HÕ∑Œƒº˛÷–
+  15          Ω´∫Í#define LCD1602_4PINS¥Úø™£¨Œ“√«’‚¿Ô π”√µƒLCD1602 «8Œª£¨À˘“‘ƒ¨»œΩ´∏√∫Í◊¢ Õ                   
+  16          
+  17                                
+  18          **************************************************************************************
+  19          
+  20          */
+  21          
+  22          #include "reg52.h"       //¥ÀŒƒº˛÷–∂®“Â¡Àµ•∆¨ª˙µƒ“ª–©Ãÿ ‚π¶ƒ‹ºƒ¥Ê∆˜
+  23          #include "lcd.h"
+  24          
+  25          typedef unsigned int u16;   //∂‘ ˝æ›¿‡–ÕΩ¯––…˘√˜∂®“Â
+  26          typedef unsigned char u8;
+  27          
+  28          sbit Data=P3^6;   //∂®“Â ˝æ›œﬂ
+  29          
+  30          #define uchar unsigned char
+  31          #define uint unsigned int
+  32          
+  33          uchar rec_dat[9];   //”√”⁄œ‘ æµƒΩ” ’ ˝æ› ˝◊È
+  34          
+  35          u8 Disp[]=" Pechin Science ";
+  36          
+  37          /*******************************************************************************
+  38          * ∫Ø  ˝ √˚         : main
+  39          * ∫Ø ˝π¶ƒ‹       : ÷˜∫Ø ˝
+  40          *  ‰    »Î         : Œﬁ
+  41          *  ‰    ≥ˆ         : Œﬁ
+  42          *******************************************************************************/
+  43          
+  44          void DHT11_delay_us(uchar n)
+  45          {
+  46   1          while(--n);
+  47   1      }
+  48          
+  49          void DHT11_delay_ms(uint z)
+  50          {
+  51   1         uint i,j;
+  52   1         for(i=z;i>0;i--)
+  53   1            for(j=110;j>0;j--);
+  54   1      }
+C51 COMPILER V9.59.0.0   MAIN                                                              05/06/2021 18:57:00 PAGE 2   
+
+  55          
+  56          void DHT11_start()
+  57          {
+  58   1         Data=1;
+  59   1         DHT11_delay_us(2);
+  60   1         Data=0;
+  61   1         DHT11_delay_ms(20);   //—” ±18ms“‘…œ
+  62   1         Data=1;
+  63   1         DHT11_delay_us(30);
+  64   1      }
+  65          
+  66          uchar DHT11_rec_byte()      //Ω” ’“ª∏ˆ◊÷Ω⁄
+  67          {
+  68   1         uchar i,dat=0;
+  69   1        for(i=0;i<8;i++)    //¥”∏ﬂµΩµÕ“¿¥ŒΩ” ’8Œª ˝æ›
+  70   1         {          
+  71   2            while(!Data);   //µ»¥˝50usµÕµÁ∆Ωπ˝»•
+  72   2            DHT11_delay_us(8);     //—” ±60us£¨»Áπ˚ªπŒ™∏ﬂ‘Ú ˝æ›Œ™1£¨∑Ò‘ÚŒ™0 
+  73   2            dat<<=1;           //“∆Œª π’˝»∑Ω” ’8Œª ˝æ›£¨ ˝æ›Œ™0 ±÷±Ω”“∆Œª
+  74   2            if(Data==1)    // ˝æ›Œ™1 ±£¨ πdatº”1¿¥Ω” ’ ˝æ›1
+  75   2               dat+=1;
+  76   2            while(Data);  //µ»¥˝ ˝æ›œﬂ¿≠µÕ    
+  77   2          }  
+  78   1          return dat;
+  79   1      }
+  80          
+  81          void DHT11_receive()      //Ω” ’40Œªµƒ ˝æ›
+  82          {
+  83   1          uchar R_H,R_L,T_H,T_L,RH,RL,TH,TL,revise; 
+  84   1          DHT11_start();
+  85   1          if(Data==0)
+  86   1          {
+  87   2              while(Data==0);   //µ»¥˝¿≠∏ﬂ // DHT11 µƒ DATA “˝Ω≈ºÏ≤‚µΩÕ‚≤ø–≈∫≈”–µÕµÁ∆Ω ±£¨ µ»¥˝Õ‚≤ø–≈∫≈µÕµÁ∆ΩΩ· 
+             -¯£¨ —”≥Ÿ∫Û DHT11 µƒ DATA“˝Ω≈¥¶”⁄ ‰≥ˆ◊¥Ã¨£¨ ‰≥ˆ 80 Œ¢√ÎµƒµÕµÁ∆Ω◊˜Œ™”¶¥–≈∫≈£¨ΩÙΩ”◊≈ ‰≥ˆ 80 Œ¢√Îµƒ∏ﬂµÁ∆ΩÕ®÷™Õ‚…Ë◊º±∏Ω” ’ ˝
+             -æ›°£   
+  88   2              DHT11_delay_us(40);  //¿≠∏ﬂ∫Û—” ±80us
+  89   2              R_H=DHT11_rec_byte();    //Ω” ’ ™∂»∏ﬂ∞ÀŒª  
+  90   2              R_L=DHT11_rec_byte();    //Ω” ’ ™∂»µÕ∞ÀŒª  
+  91   2              T_H=DHT11_rec_byte();    //Ω” ’Œ¬∂»∏ﬂ∞ÀŒª  
+  92   2              T_L=DHT11_rec_byte();    //Ω” ’Œ¬∂»µÕ∞ÀŒª
+  93   2              revise=DHT11_rec_byte(); //Ω” ’–£’˝Œª
+  94   2      
+  95   2              DHT11_delay_us(25);    //Ω· ¯
+  96   2      
+  97   2              if((R_H+R_L+T_H+T_L)==revise)      //–£’˝
+  98   2              {
+  99   3                  RH=R_H;
+ 100   3                  RL=R_L;
+ 101   3                  TH=T_H;
+ 102   3                  TL=T_L;
+ 103   3              } 
+ 104   2              /* ˝æ›¥¶¿Ì£¨∑Ω±„œ‘ æ*/
+ 105   2              rec_dat[0]='0'+(RH/10);
+ 106   2              rec_dat[1]='0'+(RH%10);
+ 107   2              rec_dat[2]='R';
+ 108   2              rec_dat[3]='H';
+ 109   2              rec_dat[4]=' ';
+ 110   2              rec_dat[5]=' ';
+ 111   2              rec_dat[6]='0'+(TH/10);
+ 112   2              rec_dat[7]='0'+(TH%10);
+ 113   2              rec_dat[8]='C';
+ 114   2          }
+C51 COMPILER V9.59.0.0   MAIN                                                              05/06/2021 18:57:00 PAGE 3   
+
+ 115   1      }
+ 116          
+ 117          
+ 118          void main(void)
+ 119          {
+ 120   1        u8 i;
+ 121   1        LcdInit();
+ 122   1        DHT11_delay_ms(1500);    //DHT11…œµÁ∫Û“™µ»¥˝1S“‘‘Ωπ˝≤ªŒ»∂®◊¥Ã¨‘⁄¥À∆⁄º‰≤ªƒ‹∑¢ÀÕ»Œ∫Œ÷∏¡Ó
+ 123   1        
+ 124   1        while(1)
+ 125   1        {
+ 126   2          DHT11_receive();
+ 127   2          LcdWriteCom(0x80);  //…Ë÷√ ˝æ›÷∏’Î∆µ„   //¥”lcd1602µ⁄“ª––µ⁄“ª∏ˆŒª÷√ø™ ºœ‘ æ
+ 128   2          for(i=0;i<9;i++)
+ 129   2          LcdWriteData(rec_dat[i]); 
+ 130   2        }         
+ 131   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    283    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     26       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
